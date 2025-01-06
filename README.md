@@ -19,11 +19,11 @@ Classic ASP 환경에서 사용할 수 있는 WYSIWYG 에디터입니다. 손쉽
 
 ```html
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/[USERNAME]/wysiwyg-editor@main/dist/editor.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/editor.min.css">
 
 <!-- JavaScript -->
-<script src="https://cdn.jsdelivr.net/gh/[USERNAME]/wysiwyg-editor@main/dist/editor.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/[USERNAME]/wysiwyg-editor@main/dist/editor_utils.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/editor.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/editor_utils.min.js"></script>
 ```
 
 ### 기본 사용법
@@ -63,7 +63,7 @@ Classic ASP 환경에서 사용할 수 있는 WYSIWYG 에디터입니다. 손쉽
 <head>
     <meta charset="utf-8">
     <title>글쓰기</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/[USERNAME]/wysiwyg-editor@main/dist/editor.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/editor.min.css">
 </head>
 <body>
     <form id="writeForm" method="post" action="save.asp" onsubmit="return submitEditor();">
@@ -73,8 +73,8 @@ Classic ASP 환경에서 사용할 수 있는 WYSIWYG 에디터입니다. 손쉽
         <button type="submit">저장</button>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/gh/[USERNAME]/wysiwyg-editor@main/dist/editor.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/[USERNAME]/wysiwyg-editor@main/dist/editor_utils.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/editor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/editor_utils.min.js"></script>
     <script>
         window.onload = function() {
             initEditor();
