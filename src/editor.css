@@ -1,0 +1,349 @@
+/* 기본 스타일 */
+body {
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.editor-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+#editor-container {
+    width: 100%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* 제목 영역 */
+.title-section {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#editor-title {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 18px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 5px;
+    font-weight: normal;
+    transition: border-color 0.2s ease;
+    background-color: #fafafa;
+    box-sizing: border-box;
+}
+
+#editor-title:focus {
+    border-color: #666;
+    background-color: #fff;
+}
+
+#editor-title::placeholder {
+    color: #999;
+}
+
+
+/* 툴바 영역 */
+.toolbar-wrapper {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 5px;
+}
+
+#toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    align-items: center;
+    padding: 3px;
+    background-color: transparent;
+    border: none;
+}
+
+#toolbar select {
+    height: 28px;
+    padding: 0 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+#toolbar select:first-child {
+    width: 100px;
+    margin-right: 4px;
+}
+
+#toolbar select:nth-child(2) {
+    width: 70px;
+    margin-right: 4px;
+}
+
+#toolbar button {
+    padding: 4px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#toolbar button:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    border-color: #ddd;
+}
+
+#toolbar button img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+#toolbar button:hover img {
+    opacity: 1;
+}
+
+/* 에디터 영역 */
+#editor {
+    min-height: 400px;
+    padding: 15px;
+    background-color: white;
+    border: none;
+}
+
+/* 폰트 사이즈 */
+#editor [size="1"] { font-size: 8pt !important; }
+#editor [size="2"] { font-size: 10pt !important; }
+#editor [size="3"] { font-size: 12pt !important; }
+#editor [size="4"] { font-size: 14pt !important; }
+#editor [size="5"] { font-size: 18pt !important; }
+#editor [size="6"] { font-size: 24pt !important; }
+#editor [size="7"] { font-size: 36pt !important; }
+
+/* 대화상자 스타일 */
+.dialog {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.dialog-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dialog-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: inline-block;
+    width: 50px;
+    color: #333;
+}
+
+.form-group input {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.dialog-buttons {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.dialog-buttons button {
+    padding: 8px 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.dialog-buttons button:first-child {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.dialog-buttons button:last-child {
+    background-color: #f44336;
+    color: white;
+}
+
+/* 테이블 스타일 */
+#editor table {
+    position: relative;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 15px 0;
+}
+
+#editor td {
+    position: relative;
+    padding: 10px;
+    border: 1px solid #ddd;
+    min-width: 50px;
+    word-wrap: break-word;
+    word-break: break-all;
+    text-align: left;
+    vertical-align: top;
+}
+
+#editor td br {
+    display: block;
+}
+
+#editor td p {
+    margin: 0;
+}
+
+/* 테이블 리사이징 */
+#editor td.resizing {
+    cursor: col-resize;
+    user-select: none;
+}
+
+.resize-handle-right {
+    position: absolute;
+    top: 0;
+    right: -3px;
+    width: 6px;
+    height: 100%;
+    cursor: col-resize;
+    z-index: 1;
+}
+
+.resize-handle-bottom {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    cursor: row-resize;
+    z-index: 1;
+}
+
+.resizing * {
+    cursor: col-resize !important;
+    user-select: none !important;
+}
+
+/* 이미지 스타일 */
+#editor img {
+    position: relative;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+#editor img.resizing {
+    pointer-events: none;
+    user-select: none;
+}
+
+.image-resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #4CAF50;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.resize-handle-nw {
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+}
+
+.resize-handle-ne {
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+
+.resize-handle-sw {
+    bottom: -5px;
+    left: -5px;
+    cursor: sw-resize;
+}
+
+.resize-handle-se {
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .editor-wrapper {
+        max-width: 100%;
+    }
+    
+    #toolbar {
+        padding: 5px;
+    }
+    
+    #toolbar select {
+        min-width: 100px;
+    }
+    
+    #editor-title {
+        font-size: 20px;
+        padding: 10px;
+    }
+}

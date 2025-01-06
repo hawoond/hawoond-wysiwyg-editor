@@ -1,0 +1,9 @@
+{
+    "name": "hawoond-wysiwyg-editor",
+    "version": "1.0.0",
+    "license": "SEE LICENSE IN LICENSE",
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/hawoond/hawoond-wysiwyg-editor.git"
+    }
+  }
