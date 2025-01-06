@@ -347,3 +347,29 @@ body {
         padding: 10px;
     }
 }
+
+.style-settings {
+    padding: 15px;
+}
+
+.style-settings textarea {
+    width: 100%;
+    min-height: 200px;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+#themeSelect {
+    width: 200px;
+    padding: 5px;
+    margin-bottom: 15px;
+}
+
+/* 툴바에 스타일 설정 버튼 스타일 */
+.style-settings-btn {
+    margin-left: auto;
+}

@@ -27,7 +27,7 @@ function changeFontSize(size) {
 function toggleSource() {
   const editor = document.getElementById("editor");
   if (editor.getAttribute("contenteditable") === "true") {
-    editor.textContent = editor.innerHTML; 
+    editor.textContent = editor.innerHTML;
     editor.setAttribute("contenteditable", "false");
   } else {
     editor.innerHTML = editor.textContent;
@@ -201,8 +201,8 @@ function sendToServer(formId = null) {
 }
 
 function setDefaultFont() {
-  execCommand("fontName", "Arial"); 
-  execCommand("fontSize", "12"); 
+  execCommand("fontName", "Arial");
+  execCommand("fontSize", "12");
   alert("Default font has been set.");
 }
 
@@ -230,7 +230,7 @@ function initEditor() {
     });
 
   initTableResizing();
-
+  createToolbar();
   const images = document.getElementById("editor").getElementsByTagName("img");
   Array.from(images).forEach(makeImageResizable);
 
@@ -417,3 +417,157 @@ function initTableResizing() {
     subtree: true,
   });
 }
+
+const toolbarButtons = [
+  {
+    command: "fontName",
+    type: "select",
+    options: [
+      { value: "Arial", text: "Arial" },
+      { value: "Courier New", text: "Courier New" },
+      { value: "Georgia", text: "Georgia" },
+      { value: "Tahoma", text: "Tahoma" },
+      { value: "Verdana", text: "Verdana" },
+    ],
+  },
+  {
+    command: "fontSize",
+    type: "select",
+    options: [
+      { value: "1", text: "8pt" },
+      { value: "2", text: "10pt" },
+      { value: "3", text: "12pt" },
+      { value: "4", text: "14pt" },
+      { value: "5", text: "18pt" },
+      { value: "6", text: "24pt" },
+      { value: "7", text: "36pt" },
+    ],
+  },
+  { command: "bold", icon: "bold.svg", title: "굵게" },
+  { command: "italic", icon: "italic.svg", title: "기울임" },
+  { command: "underline", icon: "underline.svg", title: "밑줄" },
+  { command: "justifyLeft", icon: "justify-left.svg", title: "왼쪽 정렬" },
+  {
+    command: "justifyCenter",
+    icon: "justify-center.svg",
+    title: "가운데 정렬",
+  },
+  { command: "justifyRight", icon: "justify-right.svg", title: "오른쪽 정렬" },
+  {
+    command: "insertUnorderedList",
+    icon: "bullet-list.svg",
+    title: "심볼 목록",
+  },
+  {
+    command: "insertOrderedList",
+    icon: "number-list.svg",
+    title: "숫자 목록",
+  },
+  { command: "indent", icon: "indent.svg", title: "들여쓰기" },
+  { command: "outdent", icon: "outdent.svg", title: "내어쓰기" },
+  { command: "createLink", icon: "create-link.svg", title: "링크" },
+  { command: "unlink", icon: "unlink.svg", title: "링크 제거" },
+  { command: "toggleSource", icon: "html.svg", title: "HTML 보기" },
+  { command: "insertTable", icon: "table.svg", title: "표 삽입" },
+  { command: "insertImage", icon: "image.svg", title: "이미지 삽입" },
+  {
+    command: "styleSettings",
+    icon: "settings.svg",
+    title: "스타일 설정",
+    onClick: showStyleDialog,
+  },
+];
+
+function createToolbar() {
+  const toolbar = document.getElementById('toolbar');
+  const iconBasePath = 'https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/icons/';
+  
+  toolbarButtons.forEach(button => {
+      if (button.type === 'select') {
+          const select = document.createElement('select');
+          select.onchange = () => execCommand(button.command, select.value);
+          
+          button.options.forEach(option => {
+              const opt = document.createElement('option');
+              opt.value = option.value;
+              opt.textContent = option.text;
+              select.appendChild(opt);
+          });
+          
+          toolbar.appendChild(select);
+      } else if (button.command === 'styleSettings') {
+          if (EditorUtils.toolbarConfig.showStyleSettings) {
+              const btn = document.createElement('button');
+              btn.className = 'style-settings-btn';
+              btn.title = button.title;
+              btn.onclick = button.onClick;
+
+              const img = document.createElement('img');
+              img.src = iconBasePath + button.icon;
+              img.alt = button.title;
+              
+              btn.appendChild(img);
+              toolbar.appendChild(btn);
+          }
+      } else {
+          const btn = document.createElement('button');
+          btn.title = button.title;
+          btn.onclick = () => {
+              if (button.command === 'createLink') {
+                  const url = prompt('URL을 입력하세요:', 'http://');
+                  if (url) execCommand(button.command, url);
+              } else if (button.command === 'toggleSource') {
+                  toggleSource();
+              } else if (button.command === 'insertImage') {
+                  insertImage();
+              } else if (button.command === 'insertTable') {
+                  showTableDialog();
+              } else {
+                  execCommand(button.command);
+              }
+          };
+
+          const img = document.createElement('img');
+          img.src = iconBasePath + button.icon;
+          img.alt = button.title;
+          
+          btn.appendChild(img);
+          toolbar.appendChild(btn);
+      }
+  });
+}
+function showStyleDialog() {
+  document.getElementById("styleDialog").style.display = "flex";
+}
+
+function closeStyleDialog() {
+  document.getElementById("styleDialog").style.display = "none";
+}
+
+function changeTheme(themeName) {
+  EditorUtils.styles.applyTheme(themeName);
+}
+
+function applyCustomStyle() {
+  try {
+    const styleInput = document.getElementById("customStyleInput").value;
+    const customStyles = JSON.parse(styleInput);
+    EditorUtils.styles.applyCustomStyles(customStyles);
+    closeStyleDialog();
+  } catch (e) {
+    alert("스타일 형식이 올바르지 않습니다. JSON 형식을 확인해주세요.");
+  }
+}
+
+function resetStyle() {
+  EditorUtils.styles.resetStyles();
+  document.getElementById("customStyleInput").value = "";
+  document.getElementById("themeSelect").value = "default";
+}
+
+toolbarButtons.push({
+  command: "styleSettings",
+  icon: "settings.svg",
+  title: "스타일 설정",
+  onClick: showStyleDialog,
+});

@@ -19,82 +19,10 @@
       <div id="editor-container">
         <div class="toolbar-wrapper">
           <div id="toolbar">
-            <select id="font-family" onchange="changeFontFamily(this.value)">
-              <option value="Arial">Arial</option>
-              <option value="'Courier New'">Courier New</option>
-              <option value="Georgia">Georgia</option>
-              <option value="Tahoma">Tahoma</option>
-              <option value="Verdana">Verdana</option>
-            </select>
-
-            <select id="font-size" onchange="changeFontSize(this.value)">
-              <option value="1">8pt</option>
-              <option value="2">10pt</option>
-              <option value="3" selected>12pt</option>
-              <option value="4">14pt</option>
-              <option value="5">18pt</option>
-              <option value="6">24pt</option>
-              <option value="7">36pt</option>
-            </select>
-
-            <button onclick="execCommand('bold')" title="Bold">
-              <img src="icons/bold.svg" alt="Bold" />
-            </button>
-            <button onclick="execCommand('italic')" title="Italic">
-              <img src="icons/italic.svg" alt="Italic" />
-            </button>
-            <button onclick="execCommand('underline')" title="Underline">
-              <img src="icons/underline.svg" alt="Underline" />
-            </button>
-            <button onclick="execCommand('justifyLeft')" title="Align Left">
-              <img src="icons/justify-left.svg" alt="Align Left" />
-            </button>
-            <button onclick="execCommand('justifyCenter')" title="Align Center">
-              <img src="icons/justify-center.svg" alt="Align Center" />
-            </button>
-            <button onclick="execCommand('justifyRight')" title="Align Right">
-              <img src="icons/justify-right.svg" alt="Align Right" />
-            </button>
-            <button
-              onclick="execCommand('insertUnorderedList')"
-              title="Bullet List"
-            >
-              <img src="icons/bullet-list.svg" alt="Bullet List" />
-            </button>
-            <button
-              onclick="execCommand('insertOrderedList')"
-              title="Numbered List"
-            >
-              <img src="icons/number-list.svg" alt="Numbered List" />
-            </button>
-            <button onclick="execCommand('indent')" title="Indent">
-              <img src="icons/indent.svg" alt="Indent" />
-            </button>
-            <button onclick="execCommand('outdent')" title="Outdent">
-              <img src="icons/outdent.svg" alt="Outdent" />
-            </button>
-            <button
-              onclick="execCommand('createLink', prompt('Enter URL:', 'http://'))"
-              title="Create Link"
-            >
-              <img src="icons/create-link.svg" alt="Create Link" />
-            </button>
-            <button onclick="execCommand('unlink')" title="Unlink">
-              <img src="icons/unlink.svg" alt="Unlink" />
-            </button>
-            <button onclick="toggleSource()" title="HTML">
-              <img src="icons/html.svg" alt="HTML" />
-            </button>
-            <button onclick="insertImage()" title="Image">
-              <img src="icons/image.svg" alt="Image" />
-            </button>
-            <button onclick="showTableDialog()" title="Insert Table">
-              <img src="icons/table.svg" alt="Insert Table" />
-            </button>
           </div>
         </div>
         <div id="editor" contenteditable="true" oninput="updateContent()">
-          <p><br></p>
+          <p><br /></p>
         </div>
       </div>
     </div>
@@ -117,6 +45,51 @@
         <div class="dialog-buttons">
           <button onclick="insertTableFromDialog()">삽입</button>
           <button onclick="closeTableDialog()">취소</button>
+        </div>
+      </div>
+    </div>
+    <!-- 스타일 설정 대화상자 -->
+    <div id="styleDialog" class="dialog">
+      <div class="dialog-content">
+        <div class="dialog-header">
+          <h3>에디터 스타일 설정</h3>
+          <button class="close-btn" onclick="closeStyleDialog()">
+            &times;
+          </button>
+        </div>
+        <div class="style-settings">
+          <div class="form-group">
+            <label>테마 선택:</label>
+            <select id="themeSelect" onchange="changeTheme(this.value)">
+              <option value="default">기본 테마</option>
+              <option value="dark">다크 모드</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>커스텀 스타일:</label>
+            <textarea
+              id="customStyleInput"
+              rows="10"
+              placeholder="{
+  editorWrapper: {
+      maxWidth: '900px',
+      backgroundColor: '#fff'
+  },
+  toolbar: {
+      backgroundColor: '#f4f4f4'
+  },
+  editor: {
+      minHeight: '400px',
+      fontSize: '16px'
+  }
+}"
+            ></textarea>
+          </div>
+          <div class="dialog-buttons">
+            <button onclick="applyCustomStyle()">적용</button>
+            <button onclick="resetStyle()">초기화</button>
+            <button onclick="closeStyleDialog()">취소</button>
+          </div>
         </div>
       </div>
     </div>

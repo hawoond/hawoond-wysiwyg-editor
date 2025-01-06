@@ -9,7 +9,7 @@ const EditorUtils = {
 
   initWithContent: function (content) {
     this.setContent(content);
-    initEditor(); 
+    initEditor();
   },
 
   getTitle: function () {
@@ -32,7 +32,6 @@ const EditorUtils = {
     this.setContent(content);
   },
 
-  
   updateEditorFields: function (
     formId,
     titleFieldName = "editorTitle",
@@ -53,7 +52,6 @@ const EditorUtils = {
     }
     titleField.value = this.getTitle();
 
-
     let contentField = form.querySelector(`input[name="${contentFieldName}"]`);
     if (!contentField) {
       contentField = document.createElement("input");
@@ -65,7 +63,6 @@ const EditorUtils = {
 
     return true;
   },
-
 
   handleImageUpload: function (uploadUrl, callback) {
     const fileInput = document.createElement("input");
@@ -139,5 +136,124 @@ const EditorUtils = {
     }
 
     return true;
+  },
+
+  styles: {
+    // 기본 스타일 테마
+    themes: {
+      default: {
+        editorWrapper: {
+          maxWidth: "900px",
+          backgroundColor: "#fff",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+        },
+        toolbar: {
+          backgroundColor: "#f4f4f4",
+          borderBottom: "1px solid #ccc",
+        },
+        editor: {
+          minHeight: "400px",
+          padding: "15px",
+          fontSize: "16px",
+        },
+        title: {
+          fontSize: "18px",
+          padding: "8px 10px",
+        },
+      },
+      dark: {
+        editorWrapper: {
+          maxWidth: "900px",
+          backgroundColor: "#2d2d2d",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+        },
+        toolbar: {
+          backgroundColor: "#363636",
+          borderBottom: "1px solid #444",
+        },
+        editor: {
+          minHeight: "400px",
+          padding: "15px",
+          fontSize: "16px",
+          backgroundColor: "#2d2d2d",
+          color: "#fff",
+        },
+        title: {
+          fontSize: "18px",
+          padding: "8px 10px",
+          backgroundColor: "#363636",
+          color: "#fff",
+        },
+      },
+    },
+
+    // 현재 적용된 커스텀 스타일
+    customStyles: null,
+
+    // 테마 적용
+    applyTheme: function (themeName) {
+      const theme = this.themes[themeName] || this.themes.default;
+      this.applyStyles(theme);
+    },
+
+    // 커스텀 스타일 적용
+    applyCustomStyles: function (styles) {
+      this.customStyles = styles;
+      this.applyStyles(styles);
+    },
+
+    // 스타일 직접 적용
+    applyStyles: function (styles) {
+      const wrapper = document.querySelector(".editor-wrapper");
+      const toolbar = document.getElementById("toolbar");
+      const editor = document.getElementById("editor");
+      const title = document.getElementById("editor-title");
+
+      if (styles.editorWrapper && wrapper) {
+        Object.assign(wrapper.style, styles.editorWrapper);
+      }
+      if (styles.toolbar && toolbar) {
+        Object.assign(toolbar.style, styles.toolbar);
+      }
+      if (styles.editor && editor) {
+        Object.assign(editor.style, styles.editor);
+      }
+      if (styles.title && title) {
+        Object.assign(title.style, styles.title);
+      }
+    },
+
+    // 현재 스타일 가져오기
+    getCurrentStyles: function () {
+      return this.customStyles || this.themes.default;
+    },
+
+    // 스타일 초기화
+    resetStyles: function () {
+      this.customStyles = null;
+      this.applyTheme("default");
+    },
+  },
+  // 도구 표시/숨김 관련 설정
+  toolbarConfig: {
+    showStyleSettings: true, // 스타일 설정 버튼 표시 여부
+  },
+
+  // 스타일 설정 버튼 표시/숨김 설정
+  setStyleSettingsVisible: function (visible) {
+    this.toolbarConfig.showStyleSettings = visible;
+    this.updateToolbarButtons();
+  },
+
+  // 툴바 버튼 업데이트
+  updateToolbarButtons: function () {
+    const styleButton = document.querySelector(".style-settings-btn");
+    if (styleButton) {
+      styleButton.style.display = this.toolbarConfig.showStyleSettings
+        ? "block"
+        : "none";
+    }
   },
 };
