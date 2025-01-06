@@ -1,4 +1,4 @@
-# WYSIWYG Editor for Classic ASP
+# hawoond WYSIWYG Editor for Classic ASP
 
 Classic ASP 환경에서 사용할 수 있는 WYSIWYG 에디터입니다. 손쉽게 텍스트 편집, 이미지 삽입, 표 삽입 등의 기능을 구현할 수 있습니다.
 아직 Classic ASP를 사용하는 프로젝트에 도움이 될 수 있으면 좋겠습니다.
