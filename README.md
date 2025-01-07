@@ -56,10 +56,18 @@ Classic ASP 환경에서 사용할 수 있는 WYSIWYG 에디터입니다. 손쉽
 
 ```javascript
 // 기본 기능
-EditorUtils.getContent()          // 에디터 내용 가져오기
-EditorUtils.getTitle()           // 제목 가져오기
-EditorUtils.setContent(content)   // 에디터 내용 설정
-EditorUtils.setTitle(title)      // 제목 설정
+EditorUtils.getContent()                        // 에디터 내용 가져오기
+EditorUtils.getTitle()                          // 제목 가져오기
+EditorUtils.setContent(content)                 // 에디터 내용 설정
+EditorUtils.setTitle(title)                     // 제목 설정
+EditorUtils.author.setAuthor('ttuni');          // 작성자 설정
+EditorUtils.author.setVisible(true);            // 작성자 영역 표시
+EditorUtils.author.setVisible(false);           // 작성자 영역 숨김
+const author = EditorUtils.author.getAuthor();  // 작성자 정보 가져오기
+
+const allContent = EditorUtils.getAllContent(); // 전체 내용 가져오기
+console.log('작성자:', allContent.author);
+
 EditorUtils.validate()           // 입력값 검증
 EditorUtils.setReadOnly(bool)    // 읽기 전용 모드 설정
 EditorUtils.clear()              // 에디터 내용 초기화
@@ -128,32 +136,6 @@ EditorUtils.styles.applyCustomStyles({
         Response.Write "{""success"": true, ""imageUrl"": ""uploads/" & fileName & """}"
     End If
 %>
-```
-
-## 🎨 스타일 커스터마이징
-
-### 테마 변경
-```javascript
-// 기본 제공 테마 적용
-EditorUtils.styles.applyTheme('default');  // 기본 테마
-EditorUtils.styles.applyTheme('dark');     // 다크 테마
-```
-
-### 커스텀 스타일 적용
-```javascript
-EditorUtils.styles.applyCustomStyles({
-    editorWrapper: {
-        maxWidth: '900px',
-        backgroundColor: '#fff'
-    },
-    toolbar: {
-        backgroundColor: '#f4f4f4'
-    },
-    editor: {
-        minHeight: '400px',
-        fontSize: '16px'
-    }
-});
 ```
 
 ## ⚠️ 주의사항
