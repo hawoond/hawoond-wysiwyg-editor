@@ -212,53 +212,6 @@ function insertDefaultContent() {
   alert("Default content inserted.");
 }
 
-function initEditor() {
-  document.execCommand("styleWithCSS", false, true);
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      closeTableDialog();
-    }
-  });
-
-  document
-    .getElementById("tableDialog")
-    .addEventListener("click", function (e) {
-      if (e.target === this) {
-        closeTableDialog();
-      }
-    });
-
-  initTableResizing();
-  createToolbar();
-  const images = document.getElementById("editor").getElementsByTagName("img");
-  Array.from(images).forEach(makeImageResizable);
-
-  const observer = new MutationObserver(function (mutations) {
-    mutations.forEach(function (mutation) {
-      mutation.addedNodes.forEach(function (node) {
-        if (
-          node.nodeName === "IMG" &&
-          !node.parentElement.classList.contains("image-container")
-        ) {
-          makeImageResizable(node);
-        }
-      });
-    });
-  });
-
-  observer.observe(document.getElementById("editor"), {
-    childList: true,
-    subtree: true,
-  });
-
-  document.getElementById("editor").focus();
-}
-
-window.onload = function () {
-  initEditor();
-};
-
 function showTableDialog() {
   const selection = window.getSelection();
   if (selection.rangeCount > 0) {
@@ -479,61 +432,62 @@ const toolbarButtons = [
 ];
 
 function createToolbar() {
-  const toolbar = document.getElementById('toolbar');
-  const iconBasePath = 'https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/icons/';
-  
-  toolbarButtons.forEach(button => {
-      if (button.type === 'select') {
-          const select = document.createElement('select');
-          select.onchange = () => execCommand(button.command, select.value);
-          
-          button.options.forEach(option => {
-              const opt = document.createElement('option');
-              opt.value = option.value;
-              opt.textContent = option.text;
-              select.appendChild(opt);
-          });
-          
-          toolbar.appendChild(select);
-      } else if (button.command === 'styleSettings') {
-          if (EditorUtils.toolbarConfig.showStyleSettings) {
-              const btn = document.createElement('button');
-              btn.className = 'style-settings-btn';
-              btn.title = button.title;
-              btn.onclick = button.onClick;
+  const toolbar = document.getElementById("toolbar");
+  const iconBasePath =
+    "https://cdn.jsdelivr.net/gh/hawoond/hawoond-wysiwyg-editor@main/dist/icons/";
 
-              const img = document.createElement('img');
-              img.src = iconBasePath + button.icon;
-              img.alt = button.title;
-              
-              btn.appendChild(img);
-              toolbar.appendChild(btn);
-          }
-      } else {
-          const btn = document.createElement('button');
-          btn.title = button.title;
-          btn.onclick = () => {
-              if (button.command === 'createLink') {
-                  const url = prompt('URL을 입력하세요:', 'http://');
-                  if (url) execCommand(button.command, url);
-              } else if (button.command === 'toggleSource') {
-                  toggleSource();
-              } else if (button.command === 'insertImage') {
-                  insertImage();
-              } else if (button.command === 'insertTable') {
-                  showTableDialog();
-              } else {
-                  execCommand(button.command);
-              }
-          };
+  toolbarButtons.forEach((button) => {
+    if (button.type === "select") {
+      const select = document.createElement("select");
+      select.onchange = () => execCommand(button.command, select.value);
 
-          const img = document.createElement('img');
-          img.src = iconBasePath + button.icon;
-          img.alt = button.title;
-          
-          btn.appendChild(img);
-          toolbar.appendChild(btn);
+      button.options.forEach((option) => {
+        const opt = document.createElement("option");
+        opt.value = option.value;
+        opt.textContent = option.text;
+        select.appendChild(opt);
+      });
+
+      toolbar.appendChild(select);
+    } else if (button.command === "styleSettings") {
+      if (EditorUtils.toolbarConfig.showStyleSettings) {
+        const btn = document.createElement("button");
+        btn.className = "style-settings-btn";
+        btn.title = button.title;
+        btn.onclick = button.onClick;
+
+        const img = document.createElement("img");
+        img.src = iconBasePath + button.icon;
+        img.alt = button.title;
+
+        btn.appendChild(img);
+        toolbar.appendChild(btn);
       }
+    } else {
+      const btn = document.createElement("button");
+      btn.title = button.title;
+      btn.onclick = () => {
+        if (button.command === "createLink") {
+          const url = prompt("URL을 입력하세요:", "http://");
+          if (url) execCommand(button.command, url);
+        } else if (button.command === "toggleSource") {
+          toggleSource();
+        } else if (button.command === "insertImage") {
+          insertImage();
+        } else if (button.command === "insertTable") {
+          showTableDialog();
+        } else {
+          execCommand(button.command);
+        }
+      };
+
+      const img = document.createElement("img");
+      img.src = iconBasePath + button.icon;
+      img.alt = button.title;
+
+      btn.appendChild(img);
+      toolbar.appendChild(btn);
+    }
   });
 }
 function showStyleDialog() {
@@ -571,3 +525,124 @@ toolbarButtons.push({
   title: "스타일 설정",
   onClick: showStyleDialog,
 });
+
+function createDialogs() {
+  // 테이블 대화상자 생성
+  const tableDialog = document.createElement("div");
+  tableDialog.id = "tableDialog";
+  tableDialog.className = "dialog";
+  tableDialog.innerHTML = `
+      <div class="dialog-content">
+          <div class="dialog-header">
+              <h3>표 생성</h3>
+              <button class="close-btn" onclick="closeTableDialog()">&times;</button>
+          </div>
+          <div class="form-group">
+              <label for="tableRows">행:</label>
+              <input type="number" id="tableRows" min="1" max="20" value="2">
+          </div>
+          <div class="form-group">
+              <label for="tableCols">열:</label>
+              <input type="number" id="tableCols" min="1" max="20" value="2">
+          </div>
+          <div class="dialog-buttons">
+              <button onclick="insertTableFromDialog()">삽입</button>
+              <button onclick="closeTableDialog()">취소</button>
+          </div>
+      </div>
+  `;
+
+  // 스타일 설정 대화상자 생성
+  const styleDialog = document.createElement("div");
+  styleDialog.id = "styleDialog";
+  styleDialog.className = "dialog";
+  styleDialog.innerHTML = `
+      <div class="dialog-content">
+          <div class="dialog-header">
+              <h3>에디터 스타일 설정</h3>
+              <button class="close-btn" onclick="closeStyleDialog()">&times;</button>
+          </div>
+          <div class="style-settings">
+              <div class="form-group">
+                  <label>테마 선택:</label>
+                  <select id="themeSelect" onchange="changeTheme(this.value)">
+                      <option value="default">기본 테마</option>
+                      <option value="dark">다크 모드</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label>커스텀 스타일:</label>
+                  <textarea id="customStyleInput" rows="10" placeholder="{
+  editorWrapper: {
+      maxWidth: '900px',
+      backgroundColor: '#fff'
+  },
+  toolbar: {
+      backgroundColor: '#f4f4f4'
+  },
+  editor: {
+      minHeight: '400px',
+      fontSize: '16px'
+  }
+}"></textarea>
+              </div>
+              <div class="dialog-buttons">
+                  <button onclick="applyCustomStyle()">적용</button>
+                  <button onclick="resetStyle()">초기화</button>
+                  <button onclick="closeStyleDialog()">취소</button>
+              </div>
+          </div>
+      </div>
+  `;
+
+  document.body.appendChild(tableDialog);
+  document.body.appendChild(styleDialog);
+}
+
+function initEditor() {
+  document.execCommand("styleWithCSS", false, true);
+  createDialogs();
+  createToolbar();
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      closeTableDialog();
+    }
+  });
+
+  document
+    .getElementById("tableDialog")
+    .addEventListener("click", function (e) {
+      if (e.target === this) {
+        closeTableDialog();
+      }
+    });
+
+  initTableResizing();
+
+  const images = document.getElementById("editor").getElementsByTagName("img");
+  Array.from(images).forEach(makeImageResizable);
+
+  const observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (node) {
+        if (
+          node.nodeName === "IMG" &&
+          !node.parentElement.classList.contains("image-container")
+        ) {
+          makeImageResizable(node);
+        }
+      });
+    });
+  });
+
+  observer.observe(document.getElementById("editor"), {
+    childList: true,
+    subtree: true,
+  });
+
+  document.getElementById("editor").focus();
+}
+
+window.onload = function () {
+  initEditor();
+};

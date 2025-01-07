@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WYSIWYG Editor Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hawoond/wysiwyg-editor@main/dist/editor.min.css">
+</head>
+<body>
+    <form id="testForm">
+        <div class="editor-wrapper">
+            <div class="title-section">
+                <input type="text" id="editor-title" placeholder="제목을 입력하세요">
+            </div>
+            <div id="editor-container">
+                <div id="toolbar"></div>
+                <div id="editor" contenteditable="true"></div>
+            </div>
+        </div>
+        <button type="submit">저장</button>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/gh/hawoond/wysiwyg-editor@main/dist/editor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hawoond/wysiwyg-editor@main/dist/editor_utils.min.js"></script>
+    <script>
+        window.onload = function() {
+            initEditor();
+
+            document.getElementById('testForm').onsubmit = function(e) {
+                e.preventDefault();
+                if (EditorUtils.validate()) {
+                    const content = EditorUtils.getAllContent();
+                    console.log('제목:', content.title);
+                    console.log('내용:', content.content);
+                    alert('콘솔에서 내용을 확인하세요');
+                }
+                return false;
+            };
+        };
+    </script>
+</body>
+</html>

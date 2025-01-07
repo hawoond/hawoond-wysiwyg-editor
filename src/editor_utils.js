@@ -24,6 +24,7 @@ const EditorUtils = {
     return {
       title: this.getTitle(),
       content: this.getContent(),
+      author: this.author.getAuthor(),
     };
   },
 
@@ -61,6 +62,15 @@ const EditorUtils = {
     }
     contentField.value = this.getContent();
 
+    let authorField = form.querySelector(`input[name="${authorFieldName}"]`);
+        if (!authorField) {
+            authorField = document.createElement('input');
+            authorField.type = 'hidden';
+            authorField.name = authorFieldName;
+            form.appendChild(authorField);
+        }
+        authorField.value = this.author.getAuthor();
+        
     return true;
   },
 
@@ -256,4 +266,56 @@ const EditorUtils = {
         : "none";
     }
   },
+  author: {
+    name: '',
+    visible: false,
+
+    // 작성자 설정
+    setAuthor: function(name) {
+        this.name = name;
+        const authorName = document.getElementById('author-name');
+        if (authorName) {
+            authorName.textContent = name;
+        }
+    },
+
+    // 작성자 영역 표시/숨김 설정
+    setVisible: function(visible) {
+        this.visible = visible;
+        const authorArea = document.getElementById('author-area');
+        if (authorArea) {
+            if (visible) {
+                authorArea.classList.add('show');
+            } else {
+                authorArea.classList.remove('show');
+            }
+        }
+    },
+
+    // 작성자 정보 가져오기
+    getAuthor: function() {
+        return this.name;
+    },
+
+    // 작성자 영역 표시 여부
+    isVisible: function() {
+        return this.visible;
+    }
+},
 };
+
+EditorUtils.dialogs = {
+  showTableDialog() {
+      document.getElementById('tableDialog').style.display = 'flex';
+  },
+  closeTableDialog() {
+      document.getElementById('tableDialog').style.display = 'none';
+  },
+  showStyleDialog() {
+      document.getElementById('styleDialog').style.display = 'flex';
+  },
+  closeStyleDialog() {
+      document.getElementById('styleDialog').style.display = 'none';
+  }
+};
+

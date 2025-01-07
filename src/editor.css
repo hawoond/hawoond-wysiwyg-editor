@@ -373,3 +373,26 @@ body {
 .style-settings-btn {
     margin-left: auto;
 }
+
+.title-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.author-area {
+    display: none;  /* 기본적으로 숨김 */
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #666;
+    border: 1px solid #e0e0e0;
+    margin-left: auto;  /* 오른쪽 정렬 */
+}
+
+.author-area.show {
+    display: inline-block;
+}

@@ -73,6 +73,12 @@ EditorUtils.styles.getCurrentStyles()              // 현재 스타일 가져오
 // 툴바 설정
 EditorUtils.toolbarConfig.showStyleSettings        // 스타일 설정 버튼 표시 여부
 EditorUtils.setStyleSettingsVisible(bool)          // 스타일 설정 버튼 표시/숨김 설정
+
+// 대화상자 관련
+EditorUtils.dialogs.showTableDialog()              // 표 삽입 대화상자 표시
+EditorUtils.dialogs.closeTableDialog()             // 표 삽입 대화상자 닫기
+EditorUtils.dialogs.showStyleDialog()              // 스타일 설정 대화상자 표시
+EditorUtils.dialogs.closeStyleDialog()             // 스타일 설정 대화상자 닫기
 ```
 
 ## 🎨 스타일 커스터마이징
@@ -122,6 +128,32 @@ EditorUtils.styles.applyCustomStyles({
         Response.Write "{""success"": true, ""imageUrl"": ""uploads/" & fileName & """}"
     End If
 %>
+```
+
+## 🎨 스타일 커스터마이징
+
+### 테마 변경
+```javascript
+// 기본 제공 테마 적용
+EditorUtils.styles.applyTheme('default');  // 기본 테마
+EditorUtils.styles.applyTheme('dark');     // 다크 테마
+```
+
+### 커스텀 스타일 적용
+```javascript
+EditorUtils.styles.applyCustomStyles({
+    editorWrapper: {
+        maxWidth: '900px',
+        backgroundColor: '#fff'
+    },
+    toolbar: {
+        backgroundColor: '#f4f4f4'
+    },
+    editor: {
+        minHeight: '400px',
+        fontSize: '16px'
+    }
+});
 ```
 
 ## ⚠️ 주의사항
